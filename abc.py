@@ -47,7 +47,6 @@ def main():
                     sub_downloader(file_path)
         else:
             sub_downloader(path)
-    
 
 if __name__ == '__main__':
     main()
