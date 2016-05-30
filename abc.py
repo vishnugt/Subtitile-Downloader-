@@ -1,7 +1,10 @@
 import hashlib
 import os
 import sys
+import logging
 import requests,time,re,zipfile
+from bs4 import BeautifulSoup
+
 PY_VERSION = sys.version_info[0]
 if PY_VERSION == 2:
     import urllib2
@@ -19,8 +22,9 @@ def get_hash(file_path):
 
 
 def sub_downloader(file_path):
+    try:
         root, extension = os.path.splitext(file_path)
-        # headers = {'User-Agent': 'gt'}
+        headers = {'User-Agent': 'SubDB/1.0 (gt github.com/vishnugt)'}
         url = "http://api.thesubdb.com/?action=download&hash=" + get_hash(file_path) + "&language=en"
         if PY_VERSION == 3:
             req = urllib.request.Request(url, None, headers)
@@ -30,6 +34,8 @@ def sub_downloader(file_path):
             response = urllib2.urlopen(req).read()
         with open(root + ".srt", "wb") as subtitle:
             subtitle.write(response)
+    except:
+    	return 
 
 def main():
     root, _ = os.path.splitext(sys.argv[0])
